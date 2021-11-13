@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+{% block tit %}اخبار{% endblock tit %}
+{% block content %}
+
+    <div class="navbar navbar-dark row" style="margin-top: 35px; margin-right: 3%">
+        <form action="">
+            {{ form }}
+            <input type="submit" value="جستوجو">
+        </form>
+    </div>
+
+    <div class="row" style="margin-left: 5%; margin-right: 5%">
+        <div id="filter pro" class="col-lg-12 col-md-12 col-sm-12 col-xl-12">
+            <div  class="dropdown-toggle btn btn-block btn-dark "
+                  style="margin-top: 1%;" id="filter" role="button" data-toggle="dropdown">
+               فیلتر کردن محصولات
+            </div>
+                <div class="dropdown-menu text-right" aria-labelledby="filter">
+                    <a href="{% url 'other:all_news' %}" class="dropdown-item">همه خبرها</a>
+                    <a href="{% url 'other:sort_news_by_must_visited' %}" class="dropdown-item">پربازدید ترین ها</a>
+                    <a href="{% url 'other:sort_news_by_date' %}" class="dropdown-item">جدیدترین ها </a>
+                </div>
+        </div>
+    </div>
+
+    <div class="row" style="margin-top: 60px; margin-right: 2px; margin-left: 2px;">
+        {% for n in news %}
+            <div class="col-sm-12 col-lg-2 col-md-2 col-xl-2" style="margin: 2px">
+                <div class="thumbnail">
+                    {% if n.image %}
+                        <img src="{{ n.image.url }}" alt="{{ n.slug }}" height="150" width="100%">
+                    {% endif %}
+                    <div class="caption">
+                        <h3>{{ n.title }}</h3>
+                        <p> <a href="{% url 'other:detail_news' n.slug %}" class="btn btn-primary btn-block" role="button">دیدن جزییات</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}
+

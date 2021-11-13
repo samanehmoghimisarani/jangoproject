@@ -1,0 +1,15 @@
+{% extends 'base-form.html' %}
+{% block content %}
+    <div class="row" style="margin-top: 30px;">
+        <h3 style="text-align: center">لطفا ایمیل خود را در کادر زیر وارد کنید</h3>
+    </div>
+    <div class="container text-center" style="margin-top: 30px">
+
+        <form action="" method="post">
+            {% csrf_token %}
+            <input style="text-align: center" type="email" name="email" id="email" placeholder="ایمیل "/>
+            <input type="submit" value="ارسال ایمیل">
+        </form>
+    </div>
+
+{% endblock content %}

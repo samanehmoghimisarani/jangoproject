@@ -1,0 +1,71 @@
+{% extends 'base.html' %}
+{% block tit %}اخبار{% endblock tit %}
+{% block content %}
+    <section class="banner-area py-5">
+        <div class="container">
+            <div class="row  align-items-center">
+                <div class="col-md-12 col-lg-12 col-xl-12 text-right text-lg-right">
+                    <div class="main-banner">
+
+                        <p class="display-4 mb-4 font-weight-normal">
+                            {{ news.title }}
+                        </p>
+                        <div>
+                            {{ news.body|safe }}
+                            <small>{{ news.updated }}</small>
+                        </div>
+
+                        <div class="row" style="margin-top: 50px; margin-right: 2%; margin-left: 12%;">
+                            {% for similar in similar_news  %}
+                                {% if similar.title != news.title %}
+                                    <div class="col-3" style="margin-right: 2%">
+                                        <div class="thumbnail">
+                                            <img src="{{ similar.image.url }}" alt="{{ similar.title }}" height="150" width="100%">
+                                            <div class="caption">
+                                                <h3>{{ similar.title }}</h3>
+
+                                                <p><a href="{% url 'other:detail_news' similar.slug %}"
+                                                      class="btn btn-primary btn-block" role="button">دیدن جزییات</a></p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endif %}
+                            {% empty %}
+                                خبری مشابه این خبر وجود ندارد
+                            {% endfor %}
+                        </div>
+                      <hr>
+                        <form action="" method="post" class="col-6">
+                            {% csrf_token %}
+                            {{ form.as_p }}
+                            <input type="submit" value="Send" class="btn btn-primary">
+                        </form>
+                        {% for comment in comments %}
+                        <div>
+                            <p class="card-header">{{ comment.name }}</p>
+                            <p class="card-body">{{ comment.comment }}
+                                <div class="card-body">
+                                    <form action="{% url 'other:add_reply_news' news.id comment.id %}" method="post">
+                                        {% csrf_token %}
+                                        {{ form.as_p }}
+                                        <input type="submit" value="Send">
+                                    </form>
+                                </div>
+
+                                {% for reply in comment.rcomment.all %}
+                                    <p class="bg-primary text-white p-3 m-5">{{ reply.name }} <br/> {{ reply.comment }}</p>
+                                {% endfor %}
+                            </p>
+                        </div>
+                    {% empty %}
+                        <p>نظری وجود ندارد</p>
+                    {% endfor %}
+
+
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+{% endblock content %}

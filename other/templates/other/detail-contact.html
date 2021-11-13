@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block tit %}محصولات{% endblock tit %}
+{% block content %}
+    <div id="container text-right text-lg-right">
+
+        <div style="margin-top: 60px; margin-right: 10%; margin-left: 10%;">
+                <h3>{{ contact.topic }}</h3>
+                <p>{{ contact.name }}</p>
+                <p>{{ contact.email }}</p>
+                <p>{{ contact.body }}</p>
+        </div>
+    </div>
+{% endblock content %}
+

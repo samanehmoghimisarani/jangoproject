@@ -1,0 +1,82 @@
+{% extends 'base.html' %}
+{% load django_bootstrap5 %}
+{% load static %}
+{% block tit %}detail{% endblock tit %}
+{% block content %}
+    <div class="container text-center" style="margin-top: 60px;">
+
+        <h3 class="">{{ product.title }}</h3>
+        {{ product.description | safe }}
+        {% if product.price != 0 %}
+            {% if product.pay == False %}
+            <big> {{ product.price }}تومان </big>
+                {% if product.discount_price > 0 %}
+                     <p>قیمت با تخفیف ویژه {{ product.price_whit_discount }} تومان </p>
+                {% endif %}
+            <form action="{% url 'cart:add_object' product.id %}" method="post">
+            {% csrf_token %}
+            <input type="submit" name="pay" class="btn btn-success " value="افزودن به سبد خرید">
+            </form>
+            {% else %}
+                {{ product.product_file|safe }}
+            {% endif %}
+        {% endif %}
+
+
+        <div class="row" style="margin-top: 50px; margin-right: 2%; margin-left: 12%;">
+            {% for similar in similar_products  %}
+                {% if similar.title != product.title %}
+                    <div class="col-3" style="margin-right: 2%">
+                        <div class="thumbnail">
+                            <img src="{{ similar.pic.url }}" alt="{{ similar.title }}" height="150" width="100%">
+                            <div class="caption">
+                                <h3>{{ similar.title }}</h3>
+                                <p>
+                                    {% if short_description %}
+                                        {{ similar.get_short_description }}
+                                    {% endif %}
+                                </p>
+                                <p><a href="{% url 'services:detail_product' similar.slug %}" class="btn btn-primary btn-block" role="button">دیدن جزییات</a></p>
+                            </div>
+                        </div>
+                    </div>
+                {% endif %}
+            {% empty %}
+                محصول مشابه این محصول وجود ندارد.
+            {% endfor %}
+        </div>
+    <hr>
+    	<form action="" method="post" class="col-6">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <input type="submit" value="Send" class="btn btn-primary">
+        </form>
+        {% for comment in comments %}
+        <div>
+            <p class="card-header">{{ comment.name }}</p>
+            <p class="card-body">{{ comment.comment }}
+                <div class="card-body">
+                    <form action="{% url 'services:add_reply' product.id comment.id %}" method="post">
+                        {% csrf_token %}
+                        {{ form.as_p }}
+                        <input type="submit" value="Send">
+                    </form>
+                </div>
+
+                {% for reply in comment.rcomment.all %}
+                    <p class="bg-primary text-white p-3 m-5">{{ reply.name }} <br/> {{ reply.comment }}</p>
+                {% endfor %}
+            </p>
+        </div>
+    {% empty %}
+        <p>نظری وجود ندارد</p>
+    {% endfor %}
+
+
+
+    </div>
+
+
+{% endblock content %}
+
+

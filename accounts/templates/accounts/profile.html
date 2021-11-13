@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block tit %} Profile {% endblock tit %}
+{% block content %}
+    {% if request.user.is_authenticated %}
+        <section class="banner-area py-5">
+        <!-- Content -->
+        <div class="container">
+            <div class="row  align-items-lg-center">
+                <div class="col-md-12 col-lg-12 text-center text-lg-right">
+                    <div class="main-banner">
+                        <p class="mb-0">
+                        <br><br>
+                            <h3>نام  :{{ user.name }}</h3>
+                            <h3>نام خانوادکی  :{{ user.family }}</h3>
+                            <h3>نام کاربری  :{{ user.username }}</h3>
+                            <h3>ایمیل  :{{ user.email }}</h3>
+                            <h3>تلفن همراه  :{{ user.phone }}</h3>
+                            <br><hr><br>
+
+                            <a href="{% url 'accounts:update_profile' user.id %}" target="_blank" class="btn btn-primary btn-circled">
+                                تغیر مشخصات
+                            </a>
+                        </p>
+                    </div>
+                </div>
+
+            </div> <!-- / .row -->
+        </div> <!-- / .container -->
+    </section>
+    {% endif %}
+{% endblock content %}
+

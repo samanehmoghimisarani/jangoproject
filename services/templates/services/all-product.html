@@ -1,0 +1,63 @@
+{% extends 'base.html' %}
+{% block tit %}محصولات{% endblock tit %}
+{% block content %}
+
+
+    <div class="navbar navbar-dark row" style="margin-top: 35px; margin-right: 3%">
+        <form action="">
+            {{ form }}
+            <input type="submit" value="جستوجو">
+        </form>
+    </div>
+
+    <div class="row" style="margin-left: 5%; margin-right: 5%">
+        <div id="filter pro" class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+            <div  class="dropdown-toggle btn btn-block btn-dark "
+                  style="margin-top: 1%;" id="filter" role="button" data-toggle="dropdown">
+               فیلتر کردن محصولات</div>
+                <div class="dropdown-menu text-right" aria-labelledby="filter">
+                    <a href="{% url 'services:all_product' %}" class="dropdown-item">همه محصولات</a>
+                    <a href="{% url 'other:sort_by_must_visited' %}" class="dropdown-item">پربازدید ترین ها</a>
+                    <a href="{% url 'other:free-products' %}" class="dropdown-item">محصولات رایگان</a>
+                    <a href="{% url 'other:sort_by_date' %}" class="dropdown-item">جدیدترین ها </a>
+                    <a href="{% url 'other:sort_by_lowest_price' %}" class="dropdown-item">ارزانترین ها</a>
+
+                </div>
+        </div>
+
+        <div id="category" class="col-lg-6 col-md-6 col-sm-6 col-xl-6">
+            <div  class=" dropdown-toggle btn btn-block btn-dark"  style="margin-top: 1%;" href="{% url 'services:all_product' %}" id="navbarWelcome" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+               دسته بندی</div>
+                <div class="dropdown-menu text-center"  aria-labelledby="navbarWelcome">
+                    <a href="{% url 'services:all_product' %}" class="dropdown-item">همه محصولات</a>
+                    {% for category in categories %}
+                        <a href="{{ category.category_url }}">{{ category.name }}</a>
+                         {% for sub in category.category_rel_with_self.all %}
+                        <a href="{{ sub.category_url }}" class="dropdown-item">{{ sub.name }}</a>
+                        {% endfor %}
+                    {% endfor %}
+                </div>
+         </div>
+    </div>
+
+
+
+    <div class="row" style="margin-top: 60px; margin-right: 2px; margin-left: 2px;">
+        {% for product in products %}
+            <div class="col-sm-12 col-lg-2 col-md-2 col-xl-2" style="margin: 2px">
+                <div class="thumbnail">
+                    <img src="{{ product.pic.url }}" alt="{{ product.title }}" height="150" width="100%">
+                    <div class="caption">
+                        <h3>{{ product.title }}</h3>
+                        <p>{% if product.short_description %}
+                            {{ product.get_short_description }}
+                            {% endif %}
+
+                        </p>
+                        <p> <a href="{% url 'services:detail_product' product.slug %}" class="btn btn-primary btn-block" role="button">دیدن جزییات</a></p>
+                    </div>
+                </div>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

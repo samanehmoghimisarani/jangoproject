@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<div class="container align-content-centerer">
+<table class="table table-dark col-12" style="margin-top: 60px;">
+  <thead>
+    <tr>
+        <th scope="col">#</th>
+        <th scope="col">محصول</th>
+        <th scope="col">قیمت</th>
+        <th scope="col">حذف</th>
+     </tr>
+     </thead>
+     <tbody>
+     {% for item in cart %}
+         <tr>
+             <th scope="row">{{ forloop.counter }}</th>
+             <td>{{ item.product }}</td>
+             <td>{% if item.product.discount_code > 0 %}
+                     <p>{{ item.product.price_whit_discount }}</p>
+                 {% else %}
+                    {{ item.price }}</td>
+                {% endif %}
+             <td><a href="{% url 'cart:remove_object' item.product.id %}">حذف از سبد</a></td>
+         </tr>
+     {% endfor %}
+     <tr>
+         <td>قیمت کل</td>
+         <td colspan="1"></td>
+         {% if cart.all_total_price == 0 %}
+             <td class="align-content-center">سبد خرید شما خالی است</td>
+         {% else %}
+            <td class="align-content-center">{{ cart.all_total_price }}</td>
+         {% endif %}
+     </tr>
+     </tbody>
+ </table>
+        {% if cart.all_total_price != 0 %}
+            <center><a href="{% url 'cart:checkout_cart'  %}" class="btn btn-primary">Checkout</a></center>
+        {% endif %}
+     <br>
+    </div>
+{% endblock %}
+
+

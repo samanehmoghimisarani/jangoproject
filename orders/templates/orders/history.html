@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container" style="margin-top: 60px;">
+        {% for history in histories %}
+            <p>name : {{ history.product.name }} &nbsp; price : {{ history.price }}
+                {% if history.paid == True %}
+                    paid
+                {% else %}
+                    no paid
+                {% endif %}
+            </p>
+            <hr>
+        {% empty %}
+            <p>The History Is Empty</p>
+        {% endfor %}
+
+    </div>
+{% endblock content %}

@@ -1,0 +1,51 @@
+{% extends 'base.html' %}
+{% block content %}
+    <section class="page-section cta">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-9 mx-auto">
+                    <div class="cta-inner bg-faded text-center rounded">
+                        <h2 class="section-heading mb-5">
+                            <span class="section-heading-lower">نتیجه جستوجو</span>
+                        </h2>
+                    {% if products %}
+                        <p class="address mb-5">
+                            {% for product in products %}
+                                <a href="{% url 'services:detail_product' product.id %}">
+                                    <img src="{{ product.image.url }}" width="150" height="150">
+                                    <center>{{ product.title }}</center>
+                                    <center>{{ product.get_short_description }}</center>
+                                </a>
+                                <hr>
+                            {% empty %}
+                                <h3><span class="section-heading-lower">
+                                    محصول مورد نظر پیدا نشد
+                                </span></h3>
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+
+                    {% if news %}
+                        <p class="address mb-5">
+                            {% for n in news %}
+                                <a href="{% url 'other:detail_news' n.slug %}">
+                                    <img src="{{ n.image.url }}" width="150" height="150">
+                                    <center>{{ n.title }}</center>
+                                </a>
+                                <hr>
+                            {% empty %}
+                                <div style="margin-top: 60px">
+                                <h3>
+                                    محصولی پیدا نشد
+                                </h3>
+                                </div>
+
+                            {% endfor %}
+                        </p>
+                    {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+{% endblock content %}

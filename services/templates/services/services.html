@@ -1,0 +1,31 @@
+{% extends 'base.html' %}
+{% block content %}
+
+    <div style="margin-top: 60px; ; margin-right: 20px; margin-left: 20px;">
+
+        {{ description.body|safe }}
+    </div>
+
+    <div class="row" style="margin-top: 10px; margin-right: 2px; margin-left: 2px;">
+
+        {% for product in products %}
+            <div class="col-sm-12 col-lg-2 col-md-2 col-xl-2" style="margin: 2px">
+                <div class="thumbnail">
+                    <img src="{{ product.pic.url }}" alt="{{ product.title }}" height="150" width="100%">
+                    <div class="caption">
+                        <h3>{{ product.title }}</h3>
+                        <p>{% if product.short_description %}
+                            {{ product.get_short_description }}
+                            {% endif %}
+                        </p>
+                        <p> <a href="{% url 'services:detail_product' product.slug %}" class="btn btn-primary btn-block" role="button">دیدن جزییات</a></p>
+                    </div>
+                </div>
+            </div>
+        {% empty %}
+            <div class="text-center col-12">
+                <p>محصولی وجود ندارد.</p>
+            </div>
+        {% endfor %}
+    </div>
+{% endblock content %}

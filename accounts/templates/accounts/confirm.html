@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="container"  style="margin-top: 60px; align-content: center">
+        <form action="" method="post">
+            {% if validlink %}
+                {% csrf_token %}
+                {{ form.as_p }}
+                <input type="submit" value="تغیر پسورد">
+            {% endif %}
+        </form>
+
+    </div>
+    
+{% endblock content %}
